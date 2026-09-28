@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Blood Connect | Life Saving Emergency Network</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bgMain: '#0a0a0a',
+                        cardBg: '#141414',
+                        cardHover: '#1f1f1f',
+                        brandRed: '#e50914',
+                        brandRedDark: '#b20710',
+                        brandBorder: '#27272a'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#0a0a0a] text-[#f9fafb] font-sans antialiased selection:bg-[#e50914] selection:text-white min-h-screen flex flex-col justify-between">
+
+    <header class="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-[#27272a]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-11 h-11 rounded-xl bg-[#e50914]/20 border border-[#e50914]/50 flex items-center justify-center text-[#e50914] text-xl shadow-lg shadow-[#e50914]/20 animate-pulse">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-wider text-white">AP BLOOD <span class="text-[#e50914]">CONNECT</span></span>
+                    <p class="text-[11px] text-[#9ca3af] uppercase tracking-widest font-semibold">Andhra Pradesh Emergency Network</p>
+                </div>
+            </div>
+            <nav class="hidden lg:flex space-x-1 text-sm font-semibold">
+                <button onclick="switchTab('home')" class="nav-btn px-4 py-2 rounded-lg text-[#f9fafb] bg-[#1f1f1f] border border-[#27272a] transition hover:text-white" data-target="home">Live Requests</button>
+                <button onclick="switchTab('camps')" class="nav-btn px-4 py-2 rounded-lg text-[#9ca3af] hover:text-[#f9fafb] hover:bg-[#141414] transition" data-target="camps">AP Blood Camps</button>
+                <button onclick="switchTab('donor')" class="nav-btn px-4 py-2 rounded-lg text-[#9ca3af] hover:text-[#f9fafb] hover:bg-[#141414] transition" data-target="donor">Register Donor</button>
+                <button onclick="switchTab('request')" class="nav-btn px-4 py-2 rounded-lg text-[#9ca3af] hover:text-[#f9fafb] hover:bg-[#141414] transition" data-target="request">Request Blood/Component</button>
+                <button onclick="switchTab('eligibility')" class="nav-btn px-4 py-2 rounded-lg text-[#9ca3af] hover:text-[#f9fafb] hover:bg-[#141414] transition" data-target="eligibility">Eligibility Screener</button>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <button onclick="switchTab('request')" class="bg-[#e50914] hover:bg-[#b20710] text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-[#e50914]/30 transition transform hover:scale-105 flex items-center space-x-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span class="hidden sm:inline">Emergency Need</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-white p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#141414] border-b border-[#27272a] px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-white hover:bg-[#1f1f1f]">Live Requests</button>
+            <button onclick="switchTab('camps'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:bg-[#1f1f1f]">AP Blood Camps</button>
+            <button onclick="switchTab('donor'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:bg-[#1f1f1f]">Register Donor</button>
+            <button onclick="switchTab('request'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:bg-[#1f1f1f]">Request Blood/Component</button>
+            <button onclick="switchTab('eligibility'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:bg-[#1f1f1f]">Eligibility Screener</button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- TAB 1: LIVE URGENT REQUIREMENTS & ADVANCED FILTERS -->
+        <section id="tab-home" class="tab-content space-y-6">
+            <div class="bg-gradient-to-r from-[#141414] to-[#0a0a0a] border border-[#27272a] p-6 sm:p-8 rounded-2xl shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#e50914]/20 text-[#e50914] border border-[#e50914]/40">
+                            <span class="w-2 h-2 mr-2 bg-[#e50914] rounded-full animate-ping"></span> Live AP Broadcast
+                        </span>
+                        <span class="text-xs text-[#9ca3af]">Updated Real-Time</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Live Urgent Blood & Component Requirements</h1>
+                    <p class="text-[#9ca3af] text-sm mt-1">Connecting critical patients with verified donors for Whole Blood, RBC, Plasma, and Platelets across Andhra Pradesh.</p>
+                </div>
+                <button onclick="switchTab('request')" class="bg-[#1f1f1f] hover:bg-[#27272a] border border-[#27272a] text-white px-5 py-3 rounded-xl font-bold text-sm transition flex items-center space-x-2">
+                    <i class="fa-solid fa-plus text-[#e50914]"></i>
+                    <span>Broadcast Requirement</span>
+                </button>
+            </div>
+
+            <!-- ADVANCED FILTER BAR -->
+            <div class="bg-[#141414] border border-[#27272a] p-5 rounded-2xl shadow-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-[#9ca3af] uppercase tracking-wider mb-2">AP District</label>
+                    <select id="filter-district" onchange="filterRequirements()" class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-2.5 text-sm text-white focus:border-[#e50914] outline-none transition">
+                        <option value="">All Districts</option>
+                        <option value="Visakhapatnam">Visakhapatnam</option>
+                        <option value="Vijayawada (NTR)">Vijayawada (NTR)</option>
+                        <option value="Guntur">Guntur</option>
+                        <option value="Tirupati">Tirupati</option>
+                        <option value="Kurnool">Kurnool</option>
+                        <option value="Kakinada">Kakinada</option>
+                        <option value="Rajahmundry (East Godavari)">Rajahmundry (East Godavari)</option>
+                        <option value="Anantapur">Anantapur</option>
+                        <option value="Nellore">Nellore</option>
+                        <option value="Srikakulam">Srikakulam</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-[#9ca3af] uppercase tracking-wider mb-2">Component Type</label>
+                    <select id="filter-component" onchange="filterRequirements()" class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-2.5 text-sm text-white focus:border-[#e50914] outline-none transition">
+                        <option value="">All Components</option>
+                        <option value="Whole Blood">Whole Blood</option>
+                        <option value="RBC">RBC (Red Cell Concentrate)</option>
+                        <option value="Plasma">Plasma</option>
+                        <option value="Platelets">Platelets</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-[#9ca3af] uppercase tracking-wider mb-2">Urgency Level</label>
+                    <select id="filter-urgency" onchange="filterRequirements()" class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-2.5 text-sm text-white focus:border-[#e50914] outline-none transition">
+                        <option value="">All Urgency Tiers</option>
+                        <option value="Urgent">Urgent (&lt; 6 hrs)</option>
+                        <option value="Intermediate">Intermediate (24 hrs)</option>
+                        <option value="Normal">Normal (Scheduled)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-[#9ca3af] uppercase tracking-wider mb-2">Hospital / Location</label>
+                    <input type="text" id="filter-search" oninput="filterRequirements()" placeholder="Search hospital or area..." class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-2.5 text-sm text-white focus:border-[#e50914] outline-none transition">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="resetFilters()" class="w-full bg-[#1f1f1f] hover:bg-[#27272a] text-gray-300 font-semibold py-2.5 px-4 rounded-xl text-sm border border-[#27272a] transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Reset Filters</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- REQUIREMENTS GRID -->
+            <div id="requirements-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <section id="tab-camps" class="tab-content hidden space-y-6">
+            <div class="bg-gradient-to-r from-[#141414] to-[#0a0a0a] border border-[#27272a] p-6 sm:p-8 rounded-2xl shadow-2xl">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#e50914]/20 text-[#e50914] border border-[#e50914]/40 mb-2">
+                    <i class="fa-solid fa-calendar-days mr-2"></i> Community Drives
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Upcoming Blood Donation Camps in Andhra Pradesh</h1>
+                <p class="text-[#9ca3af] text-sm mt-1">Participate in organized blood donation camps across various districts of AP. Register or call organizers directly.</p>
+            </div>
+            <div id="camps-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <section id="tab-donor" class="tab-content hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-[#141414] border border-[#27272a] p-6 sm:p-10 rounded-3xl shadow-2xl">
+                <div class="border-b border-[#27272a] pb-5 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-[#e50914]/20 text-[#e50914] flex items-center justify-center font-bold text-lg mb-3">
+                        <i class="fa-solid fa-hand-holding-droplet"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-white">Blood / Component Donor Registration</h2>
+                    <p class="text-sm text-[#9ca3af] mt-1">Register your profile to be notified instantly when someone in your district requires Whole Blood, RBC, Plasma, or Platelets.</p>
+                </div>
+                <form id="donor-form" onsubmit="handleDonorSubmit(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Full Name *</label>
+                            <input type="text" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="e.g. Rajesh Kumar">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Phone Number *</label>
+                            <input type="tel" pattern="[0-9]{10}" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="10-digit mobile number">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Blood Group *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option><option value="A-">A-</option>
+                                <option value="B+">B+</option><option value="B-">B-</option>
+                                <option value="O+">O+</option><option value="O-">O-</option>
+                                <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Donation Preference *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="Whole Blood">Whole Blood</option>
+                                <option value="RBC">RBC (Red Blood Cells)</option>
+                                <option value="Plasma">Plasma</option>
+                                <option value="Platelets">Platelets</option>
+                                <option value="Any">All / Any Component</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">AP District *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="">Select District</option>
+                                <option value="Visakhapatnam">Visakhapatnam</option>
+                                <option value="Vijayawada (NTR)">Vijayawada (NTR)</option>
+                                <option value="Guntur">Guntur</option>
+                                <option value="Tirupati">Tirupati</option>
+                                <option value="Kurnool">Kurnool</option>
+                                <option value="Kakinada">Kakinada</option>
+                                <option value="Rajahmundry">Rajahmundry</option>
+                                <option value="Anantapur">Anantapur</option>
+                                <option value="Nellore">Nellore</option>
+                                <option value="Srikakulam">Srikakulam</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Specific Location / Area *</label>
+                            <input type="text" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="e.g. MVP Colony, Benz Circle">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-[#e50914] hover:bg-[#b20710] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#e50914]/30 transition transform hover:scale-[1.01] mt-4">
+                        Confirm & Register Donor Profile
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="tab-request" class="tab-content hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-[#141414] border border-[#27272a] p-6 sm:p-10 rounded-3xl shadow-2xl">
+                <div class="border-b border-[#27272a] pb-5 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-[#e50914]/20 text-[#e50914] flex items-center justify-center font-bold text-lg mb-3">
+                        <i class="fa-solid fa-hospital-user"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-white">Broadcast Blood / Component Request</h2>
+                    <p class="text-sm text-[#9ca3af] mt-1">Create an urgent emergency requirement that instantly reflects on the live AP Connect network dashboard.</p>
+                </div>
+                <form id="request-form" onsubmit="handleRequestSubmit(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Patient Full Name *</label>
+                            <input type="text" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="Patient name">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Contact Person Phone *</label>
+                            <input type="tel" pattern="[0-9]{10}" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="10-digit emergency contact">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Blood Group *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="">Select</option>
+                                <option value="A+">A+</option><option value="A-">A-</option>
+                                <option value="B+">B+</option><option value="B-">B-</option>
+                                <option value="O+">O+</option><option value="O-">O-</option>
+                                <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Component *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="Whole Blood">Whole Blood</option>
+                                <option value="RBC">RBC</option>
+                                <option value="Plasma">Plasma</option>
+                                <option value="Platelets">Platelets</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Urgency Tier *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="Urgent">Urgent (&lt; 6 hrs)</option>
+                                <option value="Intermediate">Intermediate (24 hrs)</option>
+                                <option value="Normal">Normal (Scheduled)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">AP District *</label>
+                            <select required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                                <option value="">Select District</option>
+                                <option value="Visakhapatnam">Visakhapatnam</option>
+                                <option value="Vijayawada (NTR)">Vijayawada (NTR)</option>
+                                <option value="Guntur">Guntur</option>
+                                <option value="Tirupati">Tirupati</option>
+                                <option value="Kurnool">Kurnool</option>
+                                <option value="Kakinada">Kakinada</option>
+                                <option value="Rajahmundry">Rajahmundry</option>
+                                <option value="Anantapur">Anantapur</option>
+                                <option value="Nellore">Nellore</option>
+                                <option value="Srikakulam">Srikakulam</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-[#9ca3af] mb-2">Hospital & Location *</label>
+                            <input type="text" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="e.g. King George Hospital, Vizag">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-[#e50914] hover:bg-[#b20710] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#e50914]/30 transition transform hover:scale-[1.01] mt-4">
+                        Broadcast Live Requirement Now
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="tab-eligibility" class="tab-content hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-[#141414] border border-[#27272a] p-6 sm:p-10 rounded-3xl shadow-2xl">
+                <div class="border-b border-[#27272a] pb-5 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-[#e50914]/20 text-[#e50914] flex items-center justify-center font-bold text-lg mb-3">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-white">Comprehensive Donor Eligibility Screener</h2>
+                    <p class="text-sm text-[#9ca3af] mt-1">Answer medical pre-screening questions to determine if you are fit to donate safely today.</p>
+                </div>
+                <form id="eligibility-form" onsubmit="checkEligibility(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">1. What is your current age?</label>
+                        <input type="number" id="q-age" min="16" max="80" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition" placeholder="Enter age in years">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">2. What is your current body weight?</label>
+                        <select id="q-weight" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                            <option value="">Select weight category</option>
+                            <option value="under">Less than 50 kg</option>
+                            <option value="over">50 kg or more</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">3. When was your last blood or component donation?</label>
+                        <select id="q-last-donation" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                            <option value="">Select timeframe</option>
+                            <option value="never">Never donated before (First-time donor)</option>
+                            <option value="recent">Less than 3 months ago (Whole blood)</option>
+                            <option value="safe-time">More than 3 months ago</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">4. Have you consumed alcohol or recreational drugs in the last 24 hours?</label>
+                        <select id="q-alcohol" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                            <option value="">Select option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">5. Have you had any tattoos, body piercings, or major surgeries in the last 6 months?</label>
+                        <select id="q-tattoo" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                            <option value="">Select option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">6. Are you currently taking prescription medications (antibiotics, blood thinners, etc.)?</label>
+                        <select id="q-meds" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                            <option value="">Select option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-200 mb-2">7. Do you have any chronic conditions like HIV, Hepatitis B/C, Diabetes on insulin, or active cardiac issues?</label>
+                        <select id="q-chronic" required class="w-full bg-[#0a0a0a] border border-[#27272a] rounded-xl px-4 py-3 text-sm text-white focus:border-[#e50914] outline-none transition">
+                            <option value="">Select option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-[#e50914] hover:bg-[#b20710] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#e50914]/30 transition">
+                        Evaluate Eligibility Status
+                    </button>
+                </form>
+                <div id="eligibility-result" class="hidden mt-6 p-5 rounded-2xl border text-sm font-medium"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-[#27272a] bg-[#0a0a0a] py-8 mt-16 text-center text-xs text-[#9ca3af]">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>AP Blood Connect &copy; 2026. Dedicated to emergency healthcare facilitation across Andhra Pradesh.</p>
+            <div class="flex space-x-6 text-gray-400">
+                <span class="hover:text-white cursor-pointer" onclick="switchTab('home')">Live Dashboard</span>
+                <span class="hover:text-white cursor-pointer" onclick="switchTab('camps')">AP Camps</span>
+                <span class="hover:text-white cursor-pointer" onclick="switchTab('donor')">Register</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mock Live Requirements Data with Components, Districts, and Phone Numbers
+        let requirements = [
+            { id: 1, patientName: "R. Venkata Rao", hospital: "King George Hospital (KGH)", district: "Visakhapatnam", location: "Maharanipeta", bloodGroup: "O+", component: "Platelets", urgency: "Urgent", unitsNeeded: 2, contactPerson: "R. Mahesh", phone: "9959112233", timePosted: "15 mins ago" },
+            { id: 2, patientName: "G. Lakshmi", hospital: "Government General Hospital", district: "Guntur", location: "Kothapet", bloodGroup: "B-", component: "RBC", urgency: "Intermediate", unitsNeeded: 1, contactPerson: "G. Suresh", phone: "9393445566", timePosted: "35 mins ago" },
+            { id: 3, patientName: "Ch. Mounika", hospital: "Ramesh Hospitals", district: "Vijayawada (NTR)", location: "Moghalrajpuram", bloodGroup: "AB+", component: "Plasma", urgency: "Urgent", unitsNeeded: 3, contactPerson: "K. Kiran", phone: "9701223344", timePosted: "1 hour ago" },
+            { id: 4, patientName: "Shaik Vali", hospital: "SVIMS Hospital", district: "Tirupati", location: "Alipiri Road", bloodGroup: "O-", component: "Whole Blood", urgency: "Urgent", unitsNeeded: 2, contactPerson: "Shaik Basha", phone: "9848012345", timePosted: "2 hours ago" },
+            { id: 5, patientName: "M. Suryanarayana", hospital: "RIMS Hospital", district: "Srikakulam", location: "Collectorate Junction", bloodGroup: "A+", component: "Platelets", urgency: "Normal", unitsNeeded: 1, contactPerson: "M. Naidu", phone: "9440123456", timePosted: "3 hours ago" },
+            { id: 6, patientName: "K. Deepthi", hospital: "Apollo Hospitals", district: "Kakinada", location: "Ramaraopeta", bloodGroup: "B+", component: "Plasma", urgency: "Intermediate", unitsNeeded: 2, contactPerson: "K. Ramu", phone: "9885233445", timePosted: "4 hours ago" }
+        ];
+
+        // Mock AP Blood Camps Data
+        let bloodCamps = [
+            { id: 1, campName: "Visakhapatnam Life Savers Mega Camp", district: "Visakhapatnam", location: "AU Convocation Hall, Maddilapalem", date: "Apr 12, 2026", time: "09:00 AM - 04:00 PM", organizer: "Indian Red Cross Society", contactPerson: "Dr. Ramesh Kumar", phone: "9848011223" },
+            { id: 2, campName: "Vijayawada Emergency Blood Donation Drive", district: "Vijayawada (NTR)", location: "PWD Grounds, Benz Circle", date: "Apr 15, 2026", time: "08:30 AM - 02:00 PM", organizer: "Lions Club & Rotary", contactPerson: "K. Srinivas", phone: "9885233445" },
+            { id: 3, campName: "Tirupati Temple City Voluntary Camp", district: "Tirupati", location: "SV University Auditorium", date: "Apr 18, 2026", time: "09:00 AM - 05:00 PM", organizer: "SVIMS Hospital Blood Bank", contactPerson: "Dr. P. Murugan", phone: "9700344556" },
+            { id: 4, campName: "Guntur Community Care Drive", district: "Guntur", location: "Andhra Christian College Grounds", date: "Apr 20, 2026", time: "09:30 AM - 03:30 PM", organizer: "Guntur Youth Foundation", contactPerson: "Shaik Vali", phone: "9490677889" },
+            { id: 5, campName: "Srikakulam Youth Red Cross Camp", district: "Srikakulam", location: "Govt Degree College Grounds", date: "Apr 22, 2026", time: "09:00 AM - 03:00 PM", organizer: "Red Cross Srikakulam", contactPerson: "B. Mohan", phone: "9440123456" }
+        ];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(btn.getAttribute('data-target') === tabId) {
+                    btn.className = "nav-btn px-4 py-2 rounded-lg text-[#f9fafb] bg-[#1f1f1f] border border-[#27272a] transition";
+                } else {
+                    btn.className = "nav-btn px-4 py-2 rounded-lg text-[#9ca3af] hover:text-[#f9fafb] hover:bg-[#141414] transition";
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function renderRequirements(data) {
+            const grid = document.getElementById('requirements-grid');
+            if (data.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-16 text-center text-[#9ca3af] bg-[#141414] border border-[#27272a] rounded-2xl"><i class="fa-solid fa-folder-open text-3xl mb-2 text-gray-600"></i><p>No active requirements found matching your criteria.</p></div>`;
+                return;
+            }
+            grid.innerHTML = data.map(req => `
+                <div class="bg-[#141414] border border-[#27272a] rounded-2xl p-6 hover:border-[#e50914]/50 transition flex flex-col justify-between shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 px-3 py-1 rounded-bl-xl text-[11px] font-bold uppercase tracking-wider ${
+                        req.urgency === 'Urgent' ? 'bg-[#e50914] text-white animate-pulse' : 
+                        req.urgency === 'Intermediate' ? 'bg-amber-600 text-white' : 'bg-zinc-700 text-gray-200'
+                    }">
+                        ${req.urgency}
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-14 h-14 rounded-2xl bg-[#e50914]/10 border border-[#e50914]/40 flex items-center justify-center text-[#e50914] text-2xl font-black shadow-inner">
+                                ${req.bloodGroup}
+                            </div>
+                            <div>
+                                <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-semibold bg-[#0a0a0a] text-[#e50914] border border-[#27272a] mb-1">${req.component}</span>
+                                <h3 class="font-black text-white text-base">${req.patientName}</h3>
+                                <p class="text-xs text-[#9ca3af]"><i class="fa-solid fa-hospital text-[#e50914] mr-1"></i>${req.hospital}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-xs text-gray-300 my-4 border-t border-[#27272a] pt-4">
+                            <p class="flex items-center justify-between"><span class="text-[#9ca3af]">District:</span> <strong class="text-white">${req.district}</strong></p>
+                            <p class="flex items-center justify-between"><span class="text-[#9ca3af]">Location:</span> <strong class="text-white">${req.location}</strong></p>
+                            <p class="flex items-center justify-between"><span class="text-[#9ca3af]">Units Needed:</span> <strong class="text-white">${req.unitsNeeded} Unit(s)</strong></p>
+                            <p class="flex items-center justify-between"><span class="text-[#9ca3af]">Contact Person:</span> <strong class="text-white">${req.contactPerson}</strong></p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-[#27272a] flex items-center justify-between text-xs">
+                        <span class="text-[#9ca3af]"><i class="fa-regular fa-clock mr-1"></i>${req.timePosted}</span>
+                        <a href="tel:${req.phone}" class="bg-[#e50914]/20 hover:bg-[#e50914] text-[#ff1a1a] hover:text-white font-bold px-4 py-2 rounded-xl border border-[#e50914]/40 transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-phone-volume"></i>
+                            <span>Call ${req.phone}</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCamps() {
+            const grid = document.getElementById('camps-grid');
+            grid.innerHTML = bloodCamps.map(camp => `
+                <div class="bg-[#141414] border border-[#27272a] rounded-2xl p-6 hover:border-[#e50914]/50 transition flex flex-col justify-between shadow-xl">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#e50914]/20 text-[#e50914] border border-[#e50914]/40 mb-3">${camp.district} District</span>
+                        <h3 class="text-lg font-black text-white mb-1">${camp.campName}</h3>
+                        <p class="text-xs text-[#9ca3af] mb-4">Organizer: <span class="text-gray-200 font-medium">${camp.organizer}</span></p>
+                        
+                        <div class="space-y-2 text-xs text-gray-300 border-t border-[#27272a] pt-4">
+                            <p><i class="fa-regular fa-calendar text-[#e50914] mr-2 w-4"></i><strong>Date:</strong> ${camp.date}</p>
+                            <p><i class="fa-regular fa-clock text-[#e50914] mr-2 w-4"></i><strong>Timing:</strong> ${camp.time}</p>
+                            <p><i class="fa-solid fa-map-pin text-[#e50914] mr-2 w-4"></i><strong>Venue:</strong> ${camp.location}</p>
+                            <p><i class="fa-solid fa-user-tie text-[#e50914] mr-2 w-4"></i><strong>Coordinator:</strong> ${camp.contactPerson}</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-[#27272a]">
+                        <a href="tel:${camp.phone}" class="block text-center w-full bg-[#1f1f1f] hover:bg-[#e50914] text-white font-bold py-2.5 rounded-xl text-xs border border-[#27272a] transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Call Organizer (${camp.phone})</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterRequirements() {
+            const district = document.getElementById('filter-district').value;
+            const component = document.getElementById('filter-component').value;
+            const urgency = document.getElementById('filter-urgency').value;
+            const searchQuery = document.getElementById('filter-search').value.toLowerCase();
+
+            let filtered = requirements.filter(req => {
+                const matchDistrict = district === "" || req.district === district;
+                const matchComponent = component === "" || req.component === component;
+                const matchUrgency = urgency === "" || req.urgency === urgency;
+                const matchSearch = searchQuery === "" || 
+                                    req.hospital.toLowerCase().includes(searchQuery) || 
+                                    req.location.toLowerCase().includes(searchQuery) ||
+                                    req.patientName.toLowerCase().includes(searchQuery);
+                return matchDistrict && matchComponent && matchUrgency && matchSearch;
+            });
+            renderRequirements(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-district').value = "";
+            document.getElementById('filter-component').value = "";
+            document.getElementById('filter-urgency').value = "";
+            document.getElementById('filter-search').value = "";
+            renderRequirements(requirements);
+        }
+
+        function handleDonorSubmit(e) {
+            e.preventDefault();
+            alert("Success! Your donor profile has been registered in the AP network. Thank you for volunteering to save lives.");
+            document.getElementById('donor-form').reset();
+            switchTab('home');
+        }
+
+        function handleRequestSubmit(e) {
+            e.preventDefault();
+            const newReq = {
+                id: requirements.length + 1,
+                patientName: e.target[0].value,
+                phone: e.target[1].value,
+                bloodGroup: e.target[2].value,
+                component: e.target[3].value,
+                urgency: e.target[4].value,
+                district: e.target[5].value,
+                hospital: e.target[6].value,
+                location: e.target[6].value,
+                unitsNeeded: 1,
+                contactPerson: e.target[0].value + " (Attender)",
+                timePosted: "Just now"
+            };
+            requirements.unshift(newReq);
+            renderRequirements(requirements);
+            alert("Requirement successfully broadcasted across AP live channels.");
+            e.target.reset();
+            switchTab('home');
+        }
+
+        function checkEligibility(e) {
+            e.preventDefault();
+            const age = parseInt(document.getElementById('q-age').value);
+            const weight = document.getElementById('q-weight').value;
+            const lastDonation = document.getElementById('q-last-donation').value;
+            const alcohol = document.getElementById('q-alcohol').value;
+            const tattoo = document.getElementById('q-tattoo').value;
+            const meds = document.getElementById('q-meds').value;
+            const chronic = document.getElementById('q-chronic').value;
+
+            const resDiv = document.getElementById('eligibility-result');
+            resDiv.classList.remove('hidden');
+
+            let failedReasons = [];
+            if (age < 18 || age > 65) failedReasons.push("Donor age must be strictly between 18 and 65 years.");
+            if (weight === 'under') failed.push ? null : failedReasons.push("Body weight must be at least 50 kg for safe donation.");
+            if (lastDonation === 'recent') failedReasons.push("Must wait at least 3 months following a previous whole blood donation.");
+            if (alcohol === 'yes') failedReasons.push("Alcohol or recreational drug consumption within 24 hours requires deferral.");
+            if (tattoo === 'yes') failedReasons.push("Recent tattoos, piercings, or major surgeries require a 6-month safety deferral period.");
+            if (meds === 'yes') failedReasons.push("Current prescription medication usage requires clinical evaluation before donation.");
+            if (chronic === 'yes') failedReasons.push("History of chronic infectious or systemic conditions permanently disqualifies donation.");
+
+            if (failedReasons.length > 0) {
+                resDiv.className = "mt-6 p-5 rounded-2xl border border-amber-600/50 bg-amber-950/20 text-amber-300 text-sm font-medium space-y-2";
+                resDiv.innerHTML = `<div class="font-bold flex items-center text-amber-400 text-base mb-1"><i class="fa-solid fa-triangle-exclamation mr-2"></i>Deferred from Donating Today</div><p class="text-xs text-amber-200/80 mb-2">Based on your responses, you do not meet the immediate safety guidelines:</p><ul class="list-disc pl-5 space-y-1">${failedReasons.map(r => `<li>${r}</li>`).join('')}</ul>`;
+            } else {
+                resDiv.className = "mt-6 p-5 rounded-2xl border border-emerald-600/50 bg-emerald-950/20 text-emerald-300 text-sm font-medium space-y-1";
+                resDiv.innerHTML = `<div class="font-bold flex items-center text-emerald-400 text-base mb-1"><i class="fa-solid fa-circle-check mr-2"></i>Eligible to Donate!</div><p class="text-xs text-emerald-200/80">Congratulations! You meet all preliminary health and screening requirements. You can register as an AP Blood/Component Donor right away.</p>`;
+            }
+        }
+
+        // Initialize application on load
+        window.onload = function() {
+            renderRequirements(requirements);
+            renderCamps();
+        };
+    </script>
+</body>
+</html>
